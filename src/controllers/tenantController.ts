@@ -14,7 +14,6 @@ export const getTenants = async (req: Request, res: Response) => {
       data: tenants,
       totalCount: count,
     });
-    console.log({ tenants, count });
   } catch (error) {
     res.status(500).json({ message: "Error retrieving tenants" });
   }

@@ -4,7 +4,6 @@ import { UserDto } from "../dtos/userDto";
 import { RegisterDto } from "../dtos/registerDto";
 
 export const signup = async (req: Request, res: Response) => {
-  console.log("check req here", req.body);
   try {
     const token = await authService.register(req.body as RegisterDto);
     res.status(201).json({ token });

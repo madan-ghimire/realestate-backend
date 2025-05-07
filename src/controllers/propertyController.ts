@@ -10,12 +10,17 @@ import {
 // GET all properties with count
 export const getProperties = async (req: Request, res: Response) => {
   try {
-    const { properties, count } = await getAllProperties();
+    // console.log("check req", req.query.page);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+
+    const { properties, count } = await getAllProperties(page, limit);
     res.status(200).json({
       data: properties,
       totalCount: count,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
     });
-    console.log({ properties, count });
   } catch (error) {
     res.status(500).json({ message: "Error retrieving properties" });
   }
@@ -47,7 +52,7 @@ export const createPropertyHandler = async (req: Request, res: Response) => {
     const property = await createProperty(req.body);
     res.status(201).json(property);
   } catch (error) {
-    res.status(500).json({ message: "Error creating property" });
+    res.status(500).json({ message: "Error creating property", error: error });
   }
 };
 

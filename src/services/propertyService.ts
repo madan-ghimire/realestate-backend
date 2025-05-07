@@ -10,9 +10,14 @@ export const createProperty = async (propertyData: PropertyDto) => {
 };
 
 // Get all properties with count (like getAllTenants)
-export const getAllProperties = async () => {
+export const getAllProperties = async (
+  page: number = 1,
+  limit: number = 10
+) => {
+  const skip = (page - 1) * limit;
+
   const [properties, count] = await Promise.all([
-    db.property.findMany(),
+    db.property.findMany({ skip, take: limit }),
     db.property.count(),
   ]);
   return {
