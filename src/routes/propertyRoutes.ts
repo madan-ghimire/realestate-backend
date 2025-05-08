@@ -7,8 +7,10 @@ import {
   deletePropertyHandler,
 } from "../controllers/propertyController";
 import { authenticateToken } from "../middlewares/authMiddleware";
+import { authorizeRoles } from "../middlewares/authorizedRoles";
 
 const router = Router();
+// 🟢 Accessible to all authenticated users
 
 /**
  * @swagger
@@ -120,7 +122,16 @@ router.get("/:id", authenticateToken, getProperty);
  *       500:
  *         description: Internal server error
  */
-router.post("/", authenticateToken, createPropertyHandler);
+
+// router.post("/", authenticateToken, createPropertyHandler);
+
+// 🔒 Only ADMIN and AGENT can create listings
+router.post(
+  "/",
+  authenticateToken,
+  authorizeRoles("ADMINISTRATOR", "AGENT"),
+  createPropertyHandler
+);
 
 /**
  * @swagger

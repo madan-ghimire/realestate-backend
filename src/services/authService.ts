@@ -22,14 +22,14 @@ export const register = async (userData: RegisterDto) => {
       tenantId: userData.tenantId,
     },
   });
-  return generateToken(user.id);
+  return generateToken(user.id, user.role);
 };
 
 export const login = async (userData: UserDto) => {
   const user = await db.user.findUnique({ where: { email: userData.email } });
 
   if (user && (await bcrypt.compare(userData.password, user.password))) {
-    return generateToken(user.id);
+    return generateToken(user.id, user.role);
   }
   throw new Error("Invalid email or password");
 };
