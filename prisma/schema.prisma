@@ -10,12 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// enum UserRole {
-//   ADMIN
-//   EDITOR
-//   USER
-// }
-
 enum RoleType {
   ADMINISTRATOR
   AGENT
@@ -203,10 +197,11 @@ model Document {
   id         String       @id @default(uuid())
   title      String
   type       DocumentType
-  fileUrl    String
+  fileUrl    String       @db.VarChar(512)
+  size       Int? // <- add this
+  mimeType   String?      @db.VarChar(128) // <- and this
   uploadedAt DateTime     @default(now())
 
-  // Relations
   uploadedById String
   uploadedBy   User   @relation(fields: [uploadedById], references: [id])
 
