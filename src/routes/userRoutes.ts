@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getUsers } from "../controllers/userController";
 import { authenticateToken } from "../middlewares/authMiddleware";
+import { authorizeRoles } from "../middlewares/authorizedRoles";
 
 const router = Router();
 
@@ -27,7 +28,12 @@ const router = Router();
  *       500:
  *         description: Internal server error
  */
-router.get("/getAll", authenticateToken, getUsers);
+router.get(
+  "/getAll",
+  //   authorizeRoles("ADMINISTRATOR"),
+  authenticateToken,
+  getUsers
+);
 
 // Add more user routes here as needed
 

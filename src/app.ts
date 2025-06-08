@@ -11,8 +11,17 @@ import propertyRoutes from "./routes/propertyRoutes";
 import listingRoutes from "./routes/listingRoutes";
 import bookingRoutes from "./routes/bookingRoutes";
 import documentRoutes from "./routes/documentRoutes";
+import jobRoutes from "./routes/jobRoutes";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true, // if you're using cookies or sessions
+  })
+);
 
 // Create a write stream (in append mode)
 const accessLogsStream = fs.createWriteStream(
@@ -38,5 +47,6 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/listings", listingRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/documents", documentRoutes);
+app.use("/api/jobs", jobRoutes);
 
 export default app;

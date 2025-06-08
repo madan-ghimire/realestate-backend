@@ -49,8 +49,10 @@ export const getProperty = async (
 export const createPropertyHandler = async (req: Request, res: Response) => {
   try {
     const property = await createProperty(req.body);
+    console.log("check property", property);
     res.status(201).json(property);
   } catch (error) {
+    console.log("check error", error);
     res.status(500).json({ message: "Error creating property", error: error });
   }
 };
